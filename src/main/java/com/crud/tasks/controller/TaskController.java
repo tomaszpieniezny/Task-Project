@@ -6,9 +6,7 @@ import com.kodilla.tasks.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +18,12 @@ public class TaskController {
 
     ApplicationContext context = new AnnotationConfigApplicationContext(TaskMapper.class);
     TaskMapper taskMapper = context.getBean(TaskMapper.class);
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "getTask{id}")
+    public TaskDto getTaskById(@PathVariable("id") Long taskId) {
+        return taskMapper.mapToTaskDto(service.getTaskById(taskId));
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
