@@ -1,15 +1,15 @@
 package com.crud.tasks.controller;
 
-import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.service.DbService;
 import com.kodilla.tasks.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,8 +17,9 @@ import java.util.List;
 public class TaskController {
     @Autowired
     private DbService service;
-    @Autowired
-    private TaskMapper taskMapper;
+
+    ApplicationContext context = new AnnotationConfigApplicationContext(TaskMapper.class);
+    TaskMapper taskMapper = context.getBean(TaskMapper.class);
 
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
